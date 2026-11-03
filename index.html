@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#173f35">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Habit Grove">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Habit Grove</title>
+<style>
+:root{--bg:#f5f4ed;--card:#fffef9;--ink:#20332d;--muted:#718079;--green:#1e5a49;--mint:#dcebe2;--line:#e4e6dc;--orange:#e6a65d;--red:#b44b43}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:env(safe-area-inset-top) 0 calc(82px + env(safe-area-inset-bottom));}
+header{padding:22px 20px 14px;background:var(--bg);position:sticky;top:0;z-index:3}
+.kicker{font-size:11px;text-transform:uppercase;letter-spacing:1.7px;color:var(--green);font-weight:800}
+h1{font-size:29px;margin:5px 0 4px;letter-spacing:-.8px}.sub{color:var(--muted);font-size:13px}
+main{max-width:680px;margin:auto;padding:0 16px}.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(255,254,249,.96);backdrop-filter:blur(14px);display:flex;justify-content:space-around;padding:10px 8px calc(10px + env(safe-area-inset-bottom));border-top:1px solid var(--line);z-index:5}
+.tabs button{border:0;background:none;color:var(--muted);font-size:11px;padding:7px 12px;border-radius:12px}.tabs button.active{background:var(--mint);color:var(--green);font-weight:800}
+.panel{display:none}.panel.active{display:block}.hero{background:var(--green);color:#fff;border-radius:22px;padding:20px;margin:6px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.hero h2{margin:0 0 5px;font-size:19px}.hero p{margin:0;color:#d8e9df;font-size:12px}.ring{width:82px;height:82px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;background:conic-gradient(#e9c38a var(--progress,0%),rgba(255,255,255,.18) 0);position:relative}.ring:before{content:"";position:absolute;inset:7px;background:var(--green);border-radius:50%}.ring span{position:relative;font-size:17px;font-weight:800}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:18px 2px 10px}.section-title h2{font-size:16px;margin:0}.muted{color:var(--muted);font-size:12px}
+.habit{display:flex;align-items:center;gap:12px;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:17px;margin-bottom:9px}.emoji{width:42px;height:42px;display:grid;place-items:center;background:#f0f1e7;border-radius:13px;font-size:21px;flex-shrink:0}.habit-info{flex:1;min-width:0}.habit-name{font-weight:750;font-size:14px}.habit-meta{color:var(--muted);font-size:11px;margin-top:4px}.check{width:30px;height:30px;border-radius:10px;border:1.5px solid #c9d2c8;background:transparent;color:white;font-size:17px;flex-shrink:0}.check.done{background:var(--green);border-color:var(--green)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 10px}.stat strong{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}button,.button{font:inherit;cursor:pointer}.primary{background:var(--green);color:white;border:0;border-radius:12px;padding:12px 15px;font-weight:750}.secondary{background:var(--mint);color:var(--green);border:0;border-radius:12px;padding:10px 12px;font-weight:700}.plain{background:transparent;border:1px solid var(--line);border-radius:11px;padding:9px 11px;color:var(--ink)}.danger{color:var(--red)}input,select{width:100%;padding:12px;border:1px solid var(--line);background:white;border-radius:11px;font:inherit;color:var(--ink)}label{display:block;font-size:12px;font-weight:700;margin:12px 0 6px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.days{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.day{border:1px solid var(--line);background:white;color:var(--muted);border-radius:9px;padding:8px 10px;font-size:12px}.day.selected{background:var(--mint);color:var(--green);border-color:#a8c8b5;font-weight:800}
+.chart{display:flex;align-items:end;gap:7px;height:135px;padding:12px 4px 0;border-bottom:1px solid var(--line)}.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:end}.bar{width:min(25px,75%);min-height:3px;background:#9bbdac;border-radius:7px 7px 2px 2px}.bar.today{background:var(--green)}.bar-label{font-size:10px;color:var(--muted)}.history-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}.history-row:last-child{border:0}.pill{background:var(--mint);color:var(--green);padding:5px 8px;border-radius:9px;font-size:11px;font-weight:750}.empty{text-align:center;padding:28px 12px;color:var(--muted);font-size:13px}.small{font-size:11px;color:var(--muted);line-height:1.5}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.notice{padding:12px;border-radius:12px;background:#fff2dc;color:#76501d;font-size:12px;line-height:1.5;margin-bottom:12px}.toprow{display:flex;align-items:center;justify-content:space-between;gap:8px}.date-input{width:auto;padding:8px;font-size:12px}
+</style>
+</head>
+<body>
+<header><div class="kicker">Small steps, steady growth</div><h1>Habit Grove 🌱</h1><div class="sub" id="headerDate"></div></header>
+<main>
+<section id="today" class="panel active">
+  <div class="hero"><div><h2 id="greeting">A little progress today.</h2><p id="heroText">Every check is a promise kept.</p></div><div class="ring" id="ring"><span id="percent">0%</span></div></div>
+  <div class="toprow"><div class="section-title"><h2>Today's habits</h2></div><input class="date-input" id="selectedDate" type="date" aria-label="Choose date"></div>
+  <div id="habitList"></div>
+  <div class="actions"><button class="primary" onclick="openTab('plans')">＋ Add a habit</button><button class="plain" onclick="openTab('dashboard')">View progress ↗</button></div>
+</section>
+<section id="dashboard" class="panel">
+  <div class="section-title"><h2>Your progress</h2><span class="muted">Last 7 days</span></div>
+  <div class="stats"><div class="stat"><strong id="statToday">0%</strong><span>Today complete</span></div><div class="stat"><strong id="statWeek">0%</strong><span>7-day average</span></div><div class="stat"><strong id="statStreak">0</strong><span>Current streak*</span></div></div>
+  <div class="card" style="margin-top:12px"><div class="section-title" style="margin-top:0"><h2>Daily completion</h2></div><div id="chart" class="chart"></div><p class="small">Each bar shows the percentage of habits scheduled for that day that you completed. *Streak is based on days with at least one scheduled habit and all scheduled habits completed.</p></div>
+  <div class="card"><div class="section-title"><h2>History</h2><span class="muted">Last 30 days</span></div><div id="history"></div></div>
+</section>
+<section id="plans" class="panel">
+  <div class="section-title"><h2>Your habit plan</h2><span class="muted" id="habitCount">0 habits</span></div>
+  <div class="card">
+    <h3 id="formTitle" style="margin:0 0 5px;font-size:16px">Create a habit</h3><p class="small">Choose a name, schedule and optional reminder. You can change these any time.</p>
+    <form id="habitForm">
+      <input type="hidden" id="editId">
+      <label for="habitName">Habit name</label><input id="habitName" maxlength="60" required placeholder="e.g. Read for 15 minutes">
+      <div class="form-grid"><div><label for="habitEmoji">Icon / emoji</label><input id="habitEmoji" maxlength="5" value="🌱" placeholder="🌱"></div><div><label for="habitTime">Reminder time (optional)</label><input id="habitTime" type="time"></div></div>
+      <label>Repeat on</label><div class="days" id="dayButtons"></div>
+      <div class="actions"><button class="primary" type="submit">Save habit</button><button class="plain" type="button" onclick="resetForm()">Clear</button></div>
+    </form>
+  </div>
+  <div id="planList"></div>
+</section>
+<section id="settings" class="panel">
+  <div class="section-title"><h2>Settings & data</h2></div>
+  <div class="notice"><b>Reminder limitation on iPhone:</b> this offline web app can check reminder times while it is open, and may show a notification if permission is granted. iOS does not reliably schedule background notifications for a simple offline web app. For dependable scheduled reminders, use the iPhone Reminders app or a native iOS app.</div>
+  <div class="card"><h3 style="margin-top:0">Reminder permission</h3><p class="small">Add Habit Grove to your Home Screen first. Then tap below while the app is open. Notification support varies by iOS version and installation method.</p><button class="secondary" onclick="enableNotifications()">Enable notifications</button><p id="notificationStatus" class="small"></p></div>
+  <div class="card"><h3 style="margin-top:0">Back up your data</h3><p class="small">Export a JSON backup regularly. Data stays in this browser on this iPhone; clearing Safari website data or removing the app can erase it. An export is your safety net.</p><div class="actions"><button class="primary" onclick="exportData()">Export backup</button><button class="secondary" onclick="document.getElementById('importFile').click()">Import backup</button><input id="importFile" type="file" accept="application/json,.json" hidden onchange="importData(event)"></div><p class="small" id="backupStatus"></p></div>
+  <div class="card"><h3 style="margin-top:0">Reset data</h3><p class="small">Permanently remove all habits and completion history from this app on this device.</p><button class="plain danger" onclick="clearAll()">Delete all data</button></div>
+  <p class="small">Habit Grove is a personal offline-first tracker. It does not create an account or send your habit data to a server.</p>
+</section>
+</main>
+<nav class="tabs">
+<button class="active" data-tab="today" onclick="openTab('today')">☑ Today</button>
+<button data-tab="dashboard" onclick="openTab('dashboard')">▥ Progress</button>
+<button data-tab="plans" onclick="openTab('plans')">✳ Plans</button>
+<button data-tab="settings" onclick="openTab('settings')">⚙ Settings</button>
+</nav>
+<script>
+const KEY='habit-grove-v1';
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAY_NAMES=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+let state={habits:[],checks:{},reminded:{}};
+let selectedDays=[1,2,3,4,5,6,0];
+let activeTab='today';
+const $=id=>document.getElementById(id);
+const iso=d=>{let x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`};
+const dateFromISO=s=>{let [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d,12)};
+const today=()=>iso(new Date());
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function load(){try{let raw=localStorage.getItem(KEY);if(raw){let x=JSON.parse(raw);if(Array.isArray(x.habits)&&x.checks)state=x}}catch(e){}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function scheduled(h,date){return h.days.includes(dateFromISO(date).getDay()) && (!h.startDate||date>=h.startDate)}
+function scheduledHabits(date){return state.habits.filter(h=>scheduled(h,date))}
+function isDone(id,date){return !!(state.checks[date]&&state.checks[date][id])}
+function setDone(id,date,value){if(!state.checks[date])state.checks[date]={};state.checks[date][id]=value;save();render()}
+function completion(date){let hs=scheduledHabits(date);if(!hs.length)return null;return Math.round(hs.filter(h=>isDone(h.id,date)).length/hs.length*100)}
+function niceDate(s){return dateFromISO(s).toLocaleDateString(undefined,{weekday:'long',month:'short',day:'numeric',year:'numeric'})}
+function openTab(tab){activeTab=tab;document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===tab));document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));render()}
+function render(){ $('headerDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});let date=$('selectedDate').value||today();if(!$('selectedDate').value)$('selectedDate').value=today();renderToday(date);renderDashboard();renderPlans();$('notificationStatus').textContent=('Notification' in window)?`Permission: ${Notification.permission}`:'Notifications are not supported in this browser.'}
+function renderToday(date){let hs=scheduledHabits(date),done=hs.filter(h=>isDone(h.id,date)).length,pct=hs.length?Math.round(done/hs.length*100):0;$('percent').textContent=pct+'%';$('ring').style.setProperty('--progress',pct+'%');$('greeting').textContent=date===today()?(pct===100&&hs.length?'You showed up today. 🎉':pct?'Keep your momentum.':'A little progress today.'):'Your day, your progress.';$('heroText').textContent=hs.length?`${done} of ${hs.length} habits complete · ${niceDate(date)}`:'No habits scheduled for this day.';let root=$('habitList');if(!hs.length){root.innerHTML='<div class="empty">Nothing scheduled for this day.<br>Add a habit or choose another date.</div>';return}root.innerHTML=hs.map(h=>`<div class="habit"><div class="emoji">${esc(h.emoji||'🌱')}</div><div class="habit-info"><div class="habit-name">${esc(h.name)}</div><div class="habit-meta">${h.time?'Reminder · '+esc(h.time):'Scheduled for '+h.days.map(d=>DAYS[d]).join(', ')}</div></div><button class="check ${isDone(h.id,date)?'done':''}" aria-label="${isDone(h.id,date)?'Mark incomplete':'Mark complete'}" onclick="setDone('${h.id}','${date}',${!isDone(h.id,date)})">${isDone(h.id,date)?'✓':''}</button></div>`).join('')}
+function renderDashboard(){let t=today(),p=completion(t),vals=[];for(let i=6;i>=0;i--){let d=new Date();d.setDate(d.getDate()-i);let s=iso(d);vals.push({date:s,pct:completion(s),label:DAYS[d.getDay()]})}$('statToday').textContent=(p===null?'—':p+'%');let valid=vals.filter(x=>x.pct!==null);$('statWeek').textContent=valid.length?Math.round(valid.reduce((a,x)=>a+x.pct,0)/valid.length)+'%':'—';let streak=0;for(let i=0;i<365;i++){let d=new Date();d.setDate(d.getDate()-i);let v=completion(iso(d));if(v===null){if(i===0)continue;break}if(v===100)streak++;else break}$('statStreak').textContent=streak;
+$('chart').innerHTML=vals.map(x=>`<div class="bar-wrap"><div class="bar ${x.date===t?'today':''}" style="height:${Math.max(3,x.pct||0)}%"></div><div class="bar-label">${x.label}</div></div>`).join('');
+let rows=[];for(let i=0;i<30;i++){let d=new Date();d.setDate(d.getDate()-i);let s=iso(d),v=completion(s);if(v!==null)rows.push({s,v,done:scheduledHabits(s).filter(h=>isDone(h.id,s)).length,total:scheduledHabits(s).length})}$('history').innerHTML=rows.length?rows.map(x=>`<div class="history-row"><div><b>${esc(dateFromISO(x.s).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'}))}</b><div class="small">${x.done} of ${x.total} completed</div></div><span class="pill">${x.v}%</span></div>`).join(''):'<div class="empty">Your history will appear after you add habits.</div>'}
+function renderPlans(){$('habitCount').textContent=state.habits.length+' habit'+(state.habits.length===1?'':'s');$('planList').innerHTML=state.habits.length?state.habits.map(h=>`<div class="habit"><div class="emoji">${esc(h.emoji||'🌱')}</div><div class="habit-info"><div class="habit-name">${esc(h.name)}</div><div class="habit-meta">${h.days.slice().sort((a,b)=>a-b).map(d=>DAYS[d]).join(' · ')}${h.time?' · '+esc(h.time):''}</div><div class="actions"><button class="plain" onclick="editHabit('${h.id}')">Edit</button><button class="plain danger" onclick="deleteHabit('${h.id}')">Delete</button></div></div></div>`).join(''):'<div class="empty">Your plan is empty. Create your first habit above.</div>'}
+function renderDayButtons(){ $('dayButtons').innerHTML=DAYS.map((d,i)=>`<button type="button" class="day ${selectedDays.includes(i)?'selected':''}" onclick="toggleDay(${i})">${d}</button>`).join('')}
+function toggleDay(d){selectedDays=selectedDays.includes(d)?selectedDays.filter(x=>x!==d):[...selectedDays,d];renderDayButtons()}
+function resetForm(){$('habitForm').reset();$('editId').value='';$('habitEmoji').value='🌱';$('formTitle').textContent='Create a habit';selectedDays=[1,2,3,4,5,6,0];renderDayButtons()}
+$('habitForm').addEventListener('submit',e=>{e.preventDefault();if(!selectedDays.length){alert('Choose at least one day.');return}let id=$('editId').value||('h'+Date.now());let old=state.habits.find(h=>h.id===id);let h={id,name:$('habitName').value.trim(),emoji:$('habitEmoji').value.trim()||'🌱',time:$('habitTime').value,days:[...selectedDays],startDate:old?.startDate||today()};if(!h.name)return;state.habits=state.habits.filter(x=>x.id!==id);state.habits.push(h);save();resetForm();render();openTab('plans')});
+function editHabit(id){let h=state.habits.find(x=>x.id===id);if(!h)return;$('editId').value=h.id;$('habitName').value=h.name;$('habitEmoji').value=h.emoji;$('habitTime').value=h.time||'';selectedDays=[...h.days];$('formTitle').textContent='Edit habit';renderDayButtons();window.scrollTo({top:0,behavior:'smooth'})}
+function deleteHabit(id){let h=state.habits.find(x=>x.id===id);if(!h||!confirm(`Delete "${h.name}"? Its completion history will remain in backups but no longer count toward progress.`))return;state.habits=state.habits.filter(x=>x.id!==id);save();render()}
+function exportData(){let blob=new Blob([JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='habit-grove-backup-'+today()+'.json';a.click();URL.revokeObjectURL(url);$('backupStatus').textContent='Backup export started.'}
+function importData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!Array.isArray(x.habits)||typeof x.checks!=='object')throw Error();if(!confirm('Replace the current data with this backup?'))return;state={habits:x.habits,checks:x.checks,reminded:x.reminded||{}};save();render();$('backupStatus').textContent='Backup restored.'}catch(err){alert('This file does not look like a valid Habit Grove backup.')}e.target.value=''};r.readAsText(f)}
+function clearAll(){if(!confirm('Delete all habits and history? This cannot be undone unless you have a backup.'))return;state={habits:[],checks:{},reminded:{}};save();resetForm();render()}
+async function enableNotifications(){if(!('Notification'in window)){$('notificationStatus').textContent='Notifications are not supported here.';return}try{let p=await Notification.requestPermission();$('notificationStatus').textContent='Permission: '+p+'. Keep the app open for reminder checks.'}catch(e){$('notificationStatus').textContent='Could not request notification permission.'}}
+function checkReminders(){if(!('Notification'in window)||Notification.permission!=='granted')return;let now=new Date(),date=today(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');for(let h of scheduledHabits(date)){if(h.time===hm&&!isDone(h.id,date)){let key=date+'-'+h.id+'-'+hm;if(!state.reminded[key]){try{new Notification('Habit Grove 🌱',{body:'Time for: '+h.name,icon:'icon.svg'})}catch(e){}state.reminded[key]=true;save()}}}}
+$('selectedDate').addEventListener('change',()=>render());window.addEventListener('focus',()=>{render();checkReminders()});document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();checkReminders()}});setInterval(checkReminders,30000);
+if('serviceWorker'in navigator && location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}))}
+load();renderDayButtons();render();
+</script>
+</body></html>
